@@ -1,24 +1,40 @@
 
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
-// Sin el export no va a tomar en cuenta los valores a lo que vamos a tipar en la funcion
-export interface User {
-    name: string;
-    age: number;
+export interface Task {
+    title: string;
+    status: boolean;
+    id: number
 }
 
 @Injectable()
 export class TasksService {
 
-    getTasks(): User {
-        return {
-            name: 'Alejandro',
-            age: 25
+    private tasks: Task[] = [];
+
+    //GET
+    getTasks(){
+        return this.tasks;
+    }
+    
+    getTask(id: number){
+        const taskFound = this.tasks.find(task => task.id === id);
+        // Condicion por si no retornar el id
+        if(!taskFound) {
+            return new NotFoundException(`Task with ${id} not found`)
         }
+
+        return taskFound
     }
 
-    createTask() {
-        return 'Creando tarea'
+    //POST
+    createTask(task: Task): Task {
+        console.log(task);
+        this.tasks.push({
+            ...task,
+            id: this.tasks.length + 1
+        });
+        return task;
     }
 
     updateTask() {

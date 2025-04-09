@@ -1,35 +1,45 @@
 
-import { Controller, Delete, Get, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post, Put, Query, Param, ParseIntPipe } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 
 @Controller('/tasks')
 
 export class TasksController {
 
-    //Primera forma de importarlo
-    // taskServices: TasksService;
-
-    // constructor(taskServices: TasksService) {
-    //     this.taskServices = taskServices
-    // }
-
-    //Segunda forma de importalo (Mejor practica)
-
     constructor(private taskServices: TasksService) {
         this.taskServices = taskServices
     }
 
     @Get()
-    getAllTasks () {
+    getAllTasks(@Query() query: any) {
+        console.log(query)
         return this.taskServices.getTasks();
     }
 
-    @Post()
-    createTask() {
-        return this.taskServices.createTask();
+
+    //Manera de convertir la cadena de texto en un number
+    
+    // @Get('/:id')
+    // getTasks(@Param('id') id:string) {
+    //     console.log(id)
+    //     return this.taskServices.getTask(parseInt(id));
+    // }
+
+    //Segunda manera y la mas recomendada es ParseIntPipe para convertir automáticamente el parámetro de la URL a un número. Esto simplifica el código y asegura que el valor sea validado antes de llegar al método.
+
+    @Get('/:id')
+    getTasks(@Param('id', ParseIntPipe) id: number) { // Usamos ParseIntPipe para convertir el id a number
+        console.log(id);
+        return this.taskServices.getTask(id);
     }
 
-    @Put() // {title: 'Primera tarea', status: false} -> {title: tarea actualizada, status: true}
+    @Post()
+    // Con el @Body recibimos el body de la peticion y tenemos que importarlo de nest
+    createTask(@Body() task:any) {
+        return this.taskServices.createTask(task);
+    }
+
+    @Put() 
     updateTask() {
         return this.taskServices.updateTask();
     }
@@ -39,7 +49,7 @@ export class TasksController {
         return this.taskServices.deleteTask();
     }
 
-    @Patch() // {title: 'Primera tarea', status: false} -> {status:true}
+    @Patch() 
     patchTask() {
         return this.taskServices.patchTask();
     }
