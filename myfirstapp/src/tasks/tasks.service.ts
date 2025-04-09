@@ -1,14 +1,35 @@
 
 import { Injectable } from '@nestjs/common';
 
+// Sin el export no va a tomar en cuenta los valores a lo que vamos a tipar en la funcion
+export interface User {
+    name: string;
+    age: number;
+}
+
 @Injectable()
 export class TasksService {
 
-    getTasks() {
-        return 'Obteniendo todas las tareas'
+    getTasks(): User {
+        return {
+            name: 'Alejandro',
+            age: 25
+        }
     }
 
-    funcion() {
-        return [1, 2, 3]
+    createTask() {
+        return 'Creando tarea'
+    }
+
+    updateTask() {
+        return 'Actualizando tarea'
+    }
+
+    deleteTask() {
+        return 'Eliminando tarea'
+    }
+
+    patchTask() {
+            return 'Actualizando parcialmente tarea'
     }
 }
