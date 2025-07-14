@@ -5,6 +5,7 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 
 export interface Task {
     title: string;
+    description: string;
     status: boolean;
     id: number
 }
@@ -30,12 +31,14 @@ export class TasksService {
     }
 
     //POST
-    createTask(task: CreateTaskDto) {
-        this.tasks.push({
+    createTask(task: CreateTaskDto): Task {
+        const newTask = {
             ...task,
-            id: this.tasks.length + 1
-        });
-        return task;
+            id: this.tasks.length + 1,
+            status: false
+        };
+        this.tasks.push(newTask);
+        return newTask;
     }
 
     updateTask(task: UpdateTaskDto) {
