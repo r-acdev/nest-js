@@ -1,6 +1,8 @@
 
 import { Body, Controller, Delete, Get, Patch, Post, Put, Query, Param, ParseIntPipe } from '@nestjs/common';
 import { TasksService } from './tasks.service';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Controller('/tasks')
 
@@ -35,13 +37,13 @@ export class TasksController {
 
     @Post()
     // Con el @Body recibimos el body de la peticion y tenemos que importarlo de nest
-    createTask(@Body() task:any) {
+    createTask(@Body() task:CreateTaskDto) {
         return this.taskServices.createTask(task);
     }
 
     @Put() 
-    updateTask() {
-        return this.taskServices.updateTask();
+    updateTask(@Body() task:UpdateTaskDto) {
+        return this.taskServices.updateTask(task);
     }
 
     @Delete()
