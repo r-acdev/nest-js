@@ -5,9 +5,10 @@ import { UsersService } from './users/users.service';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 import { TestController } from './test/test.controller';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
-  imports: [TaskModule, UsersModule],
+  imports: [TaskModule, UsersModule, PaymentsModule],
   providers: [UsersService],
   controllers: [UsersController, TestController],
 })
