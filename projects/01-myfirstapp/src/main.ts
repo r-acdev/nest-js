@@ -24,5 +24,12 @@ async function bootstrap() {
   //------------------------------------------------
 
   await app.listen(process.env.PORT ?? 3000);
+
+  //codigo de main.ts...
+
+  app.enableCors();
+
+  //...
+
 }
 bootstrap();
